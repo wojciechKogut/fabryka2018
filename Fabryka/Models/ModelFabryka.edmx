@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModelFabryka.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelFabrykaStoreContainer">
+    <EntitySet Name="HalaSet" EntityType="ModelFabryka.Store.HalaSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MaszynaSet" EntityType="ModelFabryka.Store.MaszynaSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OperatorSet" EntityType="ModelFabryka.Store.OperatorSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MaszynaOperator" EntityType="ModelFabryka.Store.MaszynaOperator" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="HalaMaszyna" Association="ModelFabryka.Store.HalaMaszyna">
+      <End Role="Hala" EntitySet="HalaSet" />
+      <End Role="Maszyna" EntitySet="MaszynaSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MaszynaOperator_Maszyna" Association="ModelFabryka.Store.FK_MaszynaOperator_Maszyna">
+      <End Role="Maszyna" EntitySet="MaszynaSet" />
+      <End Role="MaszynaOperator" EntitySet="MaszynaOperator" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MaszynaOperator_Operator" Association="ModelFabryka.Store.FK_MaszynaOperator_Operator">
+      <End Role="Operator" EntitySet="OperatorSet" />
+      <End Role="MaszynaOperator" EntitySet="MaszynaOperator" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="HalaSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nazwa" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Adres" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MaszynaSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Numer_ewidencyjny" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Nazwa" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Data_uru" Type="datetime" Nullable="true" />
+    <Property Name="Operatorzy" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="HalaId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OperatorSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Imie" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Nazwisko" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Placa" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MaszynaOperator">
+    <Key>
+      <PropertyRef Name="Maszyna_Id" />
+      <PropertyRef Name="Operator_Id" />
+    </Key>
+    <Property Name="Maszyna_Id" Type="int" Nullable="false" />
+    <Property Name="Operator_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="HalaMaszyna">
+    <End Role="Hala" Type="ModelFabryka.Store.HalaSet" Multiplicity="1" />
+    <End Role="Maszyna" Type="ModelFabryka.Store.MaszynaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hala">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Maszyna">
+        <PropertyRef Name="HalaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MaszynaOperator_Maszyna">
+    <End Role="Maszyna" Type="ModelFabryka.Store.MaszynaSet" Multiplicity="1" />
+    <End Role="MaszynaOperator" Type="ModelFabryka.Store.MaszynaOperator" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Maszyna">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MaszynaOperator">
+        <PropertyRef Name="Maszyna_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MaszynaOperator_Operator">
+    <End Role="MaszynaOperator" Type="ModelFabryka.Store.MaszynaOperator" Multiplicity="*" />
+    <End Role="Operator" Type="ModelFabryka.Store.OperatorSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Operator">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MaszynaOperator">
+        <PropertyRef Name="Operator_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ModelFabryka" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ModelFabrykaContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="HalaSet" EntityType="ModelFabryka.Hala" />
+          <EntitySet Name="MaszynaSet" EntityType="ModelFabryka.Maszyna" />
+          <EntitySet Name="OperatorSet" EntityType="ModelFabryka.Operator" />
+          <AssociationSet Name="HalaMaszyna" Association="ModelFabryka.HalaMaszyna">
+            <End Role="Hala" EntitySet="HalaSet" />
+            <End Role="Maszyna" EntitySet="MaszynaSet" />
+          </AssociationSet>
+          <AssociationSet Name="MaszynaOperator" Association="ModelFabryka.MaszynaOperator">
+            <End Role="Maszyna" EntitySet="MaszynaSet" />
+            <End Role="Operator" EntitySet="OperatorSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Hala">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nazwa" Type="String" Nullable="false" />
+          <Property Name="Adres" Type="String" Nullable="false" />
+          <NavigationProperty Name="Maszyna" Relationship="ModelFabryka.HalaMaszyna" FromRole="Hala" ToRole="Maszyna" />
+        </EntityType>
+        <EntityType Name="Maszyna">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Numer_ewidencyjny" Type="String" Nullable="false" />
+          <Property Name="Nazwa" Type="String" Nullable="false" />
+          <Property Name="Data_uru" Type="DateTime" Nullable="true" />
+          <Property Name="Operatorzy" Type="String" Nullable="false" />
+          <NavigationProperty Name="Hala" Relationship="ModelFabryka.HalaMaszyna" FromRole="Maszyna" ToRole="Hala" />
+          <Property Name="HalaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Operator" Relationship="ModelFabryka.MaszynaOperator" FromRole="Maszyna" ToRole="Operator" />
+        </EntityType>
+        <EntityType Name="Operator">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Imie" Type="String" Nullable="false" />
+          <Property Name="Nazwisko" Type="String" Nullable="false" />
+          <Property Name="Placa" Type="String" Nullable="false" />
+          <NavigationProperty Name="Maszyna" Relationship="ModelFabryka.MaszynaOperator" FromRole="Operator" ToRole="Maszyna" />
+        </EntityType>
+        <Association Name="HalaMaszyna">
+          <End Type="ModelFabryka.Hala" Role="Hala" Multiplicity="1" />
+          <End Type="ModelFabryka.Maszyna" Role="Maszyna" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hala">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Maszyna">
+              <PropertyRef Name="HalaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MaszynaOperator">
+          <End Type="ModelFabryka.Maszyna" Role="Maszyna" Multiplicity="*" />
+          <End Type="ModelFabryka.Operator" Role="Operator" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelFabrykaStoreContainer" CdmEntityContainer="ModelFabrykaContainer">
+    <EntitySetMapping Name="HalaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelFabryka.Hala)">
+        <MappingFragment StoreEntitySet="HalaSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+          <ScalarProperty Name="Adres" ColumnName="Adres" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MaszynaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelFabryka.Maszyna)">
+        <MappingFragment StoreEntitySet="MaszynaSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Numer_ewidencyjny" ColumnName="Numer_ewidencyjny" />
+          <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+          <ScalarProperty Name="Data_uru" ColumnName="Data_uru" />
+          <ScalarProperty Name="Operatorzy" ColumnName="Operatorzy" />
+          <ScalarProperty Name="HalaId" ColumnName="HalaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OperatorSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelFabryka.Operator)">
+        <MappingFragment StoreEntitySet="OperatorSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Imie" ColumnName="Imie" />
+          <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+          <ScalarProperty Name="Placa" ColumnName="Placa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="MaszynaOperator" TypeName="ModelFabryka.MaszynaOperator" StoreEntitySet="MaszynaOperator">
+      <EndProperty Name="Maszyna">
+        <ScalarProperty Name="Id" ColumnName="Maszyna_Id" />
+      </EndProperty>
+      <EndProperty Name="Operator">
+        <ScalarProperty Name="Id" ColumnName="Operator_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

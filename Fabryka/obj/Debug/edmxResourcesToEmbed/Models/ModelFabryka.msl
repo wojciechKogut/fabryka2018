@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelFabrykaStoreContainer" CdmEntityContainer="ModelFabrykaContainer">
+    <EntitySetMapping Name="HalaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelFabryka.Hala)">
+        <MappingFragment StoreEntitySet="HalaSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+          <ScalarProperty Name="Adres" ColumnName="Adres" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MaszynaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelFabryka.Maszyna)">
+        <MappingFragment StoreEntitySet="MaszynaSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Numer_ewidencyjny" ColumnName="Numer_ewidencyjny" />
+          <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+          <ScalarProperty Name="Data_uru" ColumnName="Data_uru" />
+          <ScalarProperty Name="Operatorzy" ColumnName="Operatorzy" />
+          <ScalarProperty Name="HalaId" ColumnName="HalaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OperatorSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelFabryka.Operator)">
+        <MappingFragment StoreEntitySet="OperatorSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Imie" ColumnName="Imie" />
+          <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+          <ScalarProperty Name="Placa" ColumnName="Placa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="MaszynaOperator" TypeName="ModelFabryka.MaszynaOperator" StoreEntitySet="MaszynaOperator">
+      <EndProperty Name="Maszyna">
+        <ScalarProperty Name="Id" ColumnName="Maszyna_Id" />
+      </EndProperty>
+      <EndProperty Name="Operator">
+        <ScalarProperty Name="Id" ColumnName="Operator_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>
